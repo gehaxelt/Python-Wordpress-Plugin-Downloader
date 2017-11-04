@@ -17,7 +17,7 @@ def create_list(wp_url, file):
 		content = ""
 		try:
 			print("Fetching page... " + str(page))
-			r = requests.get(wp_url+"page/"+str(page))
+			r = requests.get(wp_url+"page/"+str(page), timeout=10)
 			content = str(r.content)
 		except:
 			pass
@@ -28,9 +28,9 @@ def create_list(wp_url, file):
 				url, installs, lastUpd = match
 				installs = installs.replace('\\t',"").replace('\\n',"")
 				lastUpd = lastUpd.replace('\\t',"").replace('\\n',"")
-				file.write(url + "||" + installs + "||" + lastUpd + "\n")
+				file.write(url + "\t" + installs + "\t" + lastUpd + "\n")
 				file.flush()
-		if not "Next &raquo;" in content:
+		if not "next page-numbers" in content:
 			has_next = False
 		page += 1
 
